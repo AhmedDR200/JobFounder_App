@@ -16,8 +16,8 @@ def job_list(request):
     return render(request, 'wazifa/job_list.html', {'jobs':page_obj}) #--> template name
 
 
-def job_detail(request, id):
-   job_detail = Job.objects.get(id=id) #get 1 job
+def job_detail(request, slug):
+   job_detail = Job.objects.get(slug=slug) #get 1 job
    return render(request, 'wazifa/job_detail.html', {'job':job_detail}) #--> template name
 
 

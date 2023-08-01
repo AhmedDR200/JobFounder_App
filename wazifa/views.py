@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render , redirect
+from django.urls import reverse 
 from .models import Job
 from django.core.paginator import Paginator
-from .forms import ApplyForm
+from .forms import ApplyForm , JobForm
 # Create your views here.
 
 
@@ -15,6 +16,8 @@ def job_list(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'wazifa/job_list.html', {'jobs':page_obj}) #--> template name
+
+
 
 
 def job_detail(request, slug):
@@ -31,5 +34,22 @@ def job_detail(request, slug):
          form = ApplyForm()
       
    return render(request, 'wazifa/job_detail.html', {'job':job_detail , 'form':form}) #--> template name
+
+
+
+
+
+def add_job(request):
+    if request.method =='POST':
+        form =JobForm(request.POST, files=request.FILES )
+        if form.is_valid():
+            myform = form.save(commit=False)# save the data to database
+            myform.owner = request.user
+            myform.save()
+            return redirect(reverse('jobs:job_list')) #بيرجعني على ليست الوظايف بعد ما ب بوست الوظيفة
+    else:
+        form = JobForm()
+    return render(request, 'wazifa/add_job.html', {'form':form})
+    
 
 

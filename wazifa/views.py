@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Job
 from django.core.paginator import Paginator
+from .forms import ApplyForm
 # Create your views here.
 
 
@@ -18,6 +19,17 @@ def job_list(request):
 
 def job_detail(request, slug):
    job_detail = Job.objects.get(slug=slug) #get 1 job
-   return render(request, 'wazifa/job_detail.html', {'job':job_detail}) #--> template name
+
+    # apply form
+   if request.method =='POST':
+       form =ApplyForm(request.POST, request.FILES) #بنتعامل مع فايلز
+       if form.is_valid():
+           myform = form.save(commit=False) #عشان ميبقاش في ايرور لاني مش حاطط الوظيفة ف الفيلدز 
+           myform.job = job_detail
+           myform.save()
+   else:
+         form = ApplyForm()
+      
+   return render(request, 'wazifa/job_detail.html', {'job':job_detail , 'form':form}) #--> template name
 
 

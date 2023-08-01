@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Job
+from django.core.paginator import Paginator
 # Create your views here.
 
 
@@ -7,7 +8,12 @@ from .models import Job
 
 def job_list(request):
     job_list = Job.objects.all() #get all jobs
-    return render(request, 'wazifa/job_list.html', {'jobs':job_list}) #--> template name
+    # paginator setup
+    paginator = Paginator(job_list, 8)  # Show 25 contacts per page.
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'wazifa/job_list.html', {'jobs':page_obj}) #--> template name
 
 
 def job_detail(request, id):

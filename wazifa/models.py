@@ -41,7 +41,22 @@ class Job(models.Model):
 
 # make this first and makemidration
 class Category(models.Model):
-    name  =   models.CharField( max_length=20 )
+    name  =   models.CharField( max_length=50 )
 
     def __str__(self):
         return self.name
+
+
+
+# apply form model
+class Apply(models.Model):
+  job = models.ForeignKey(Job, related_name='apply_job' ,on_delete=models.CASCADE)
+  name = models.CharField( max_length=50)
+  email = models.EmailField(max_length=100)
+  website = models.URLField(max_length=200)
+  cv = models.FileField(upload_to='apply/', max_length=100)
+  cover_letter = models.TextField(max_length=500)
+
+  def __str__(self):
+      return self.name
+  

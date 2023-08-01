@@ -13,3 +13,5 @@ def job_list(request):
 def job_detail(request, id):
    job_detail = Job.objects.get(id=id) #get 1 job
    return render(request, 'wazifa/job_detail.html', {'job':job_detail}) #--> template name
+
+

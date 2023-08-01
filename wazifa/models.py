@@ -10,6 +10,10 @@ JOB_TYPE=(
 
 )
 
+# image upload customiztion
+def img_upload(instance,filename):
+    imgname , extension = filename.split(".")
+    return "jobs/%s.%s"%(instance.id,extension)
 
 
 class Job(models.Model):
@@ -22,6 +26,7 @@ class Job(models.Model):
     experience = models.IntegerField(default=1)
     # then make this and makemidration
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=img_upload)
 
 
 

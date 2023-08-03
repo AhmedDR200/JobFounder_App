@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'wazifa',
     'bootstrap5',
+    'django_filters',
 
 ]
 
